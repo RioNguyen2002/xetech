@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <SafeAreaView style={[styles.container, isDarkMode && styles.containerDark]}>
       <View style={[styles.innerContainer, isDarkMode && styles.innerContainerDark]}>
-        <Text style={[styles.title, isDarkMode && styles.titleDark]}>User</Text>
+        <Text style={[styles.title, isDarkMode && styles.titleDark]}>Driver</Text>
       </View>
     </SafeAreaView>
   );
@@ -19,10 +19,10 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5', // Light gray background color
+    backgroundColor: '#FFFFFF', // Light mode background color
   },
   containerDark: {
-    backgroundColor: '#0F0E0E', // Dark background color
+    backgroundColor: '#2F3032', // Dark mode background color
   },
   innerContainer: {
     flex: 1,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333', // Dark text color for light mode
+    color: '#333333', // Dark text color for light mode
   },
   titleDark: {
     color: '#E0E0E0', // Light text color for dark mode

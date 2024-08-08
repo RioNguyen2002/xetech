@@ -1,121 +1,118 @@
-// ForgotPassword.js
-
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 
-const ForgotPassword = ({ navigation }) => {
-  const [email, setEmail] = useState('');
+const ForgotPasswordScreen = ({ navigation }) => {
+    const [identifier, setIdentifier] = useState('');
+    const [identifierError, setIdentifierError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
-  const handleResetPassword = () => {
-    if (!email) {
-      console.log('Please enter your email');
-      return;
-    }
+    const handleResetPassword = async () => {
+        // Reset errors
+        setIdentifierError('');
+        setSuccessMessage('');
 
-    // Handle password reset logic here
-    console.log('Password reset requested for', email);
+        // Validate input
+        if (!identifier) {
+            setIdentifierError('Please enter your email or phone number');
+            return;
+        }
 
-    // Navigate to a confirmation screen or show a success message
-    navigation.navigate('ResetPasswordConfirmation'); // Navigate to confirmation screen
-  };
+        try {
+            // Replace with your password reset logic
+            await sendPasswordResetRequest(identifier);
+            setSuccessMessage('Password reset link sent. Please check your email.');
+        } catch (error) {
+            setIdentifierError('Error sending password reset link');
+        }
+    };
 
-  return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      <SafeAreaView style={styles.safeAreaView}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Forgot Password</Text>
-          <Text style={styles.subtitle}>Enter your email to reset your password</Text>
+    const sendPasswordResetRequest = async (identifier) => {
+        // Implement your password reset logic here
+        // For example, use Firebase Auth API or other authentication service
+        console.log(`Sending password reset request for: ${identifier}`);
+    };
 
-          <TextInput
-            style={styles.input}
-            placeholder='Email'
-            value={email}
-            onChangeText={setEmail}
-            keyboardType='email-address'
-            autoCapitalize='none'
-          />
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={styles.innerContainer}>
+                <Text style={styles.title}>Forgot Password</Text>
 
-          <TouchableOpacity style={styles.resetButton} onPress={handleResetPassword}>
-            <Text style={styles.resetButtonText}>Reset Password</Text>
-          </TouchableOpacity>
+                <TextInput
+                    style={styles.input}
+                    placeholder='Enter your email or phone number'
+                    value={identifier}
+                    onChangeText={setIdentifier}
+                    keyboardType='default'
+                    placeholderTextColor="#888888"
+                />
+                {identifierError ? <Text style={styles.errorText}>{identifierError}</Text> : null}
+                {successMessage ? <Text style={styles.successText}>{successMessage}</Text> : null}
 
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backLink}>
-            <Text style={styles.backLinkText}>Back to Sign In</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    </ScrollView>
-  );
+                <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
+                    <Text style={styles.buttonText}>Send Reset Link</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                    <Text style={styles.backButtonText}>Back to Sign In</Text>
+                </TouchableOpacity>
+            </View>
+        </SafeAreaView>
+    );
 };
 
-export default ForgotPassword;
-
 const styles = StyleSheet.create({
-  scrollViewContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    padding: 16,
-    backgroundColor: '#F5F5F5',
-  },
-  safeAreaView: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  container: {
-    backgroundColor: '#FFF',
-    borderRadius: 16,
-    padding: 24,
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 5 },
-    alignItems: 'center',
-    marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 16,
-    marginBottom: 24,
-    color: '#555',
-    textAlign: 'center',
-  },
-  input: {
-    height: 50,
-    borderColor: '#DDDDDD',
-    borderWidth: 1,
-    borderRadius: 12,
-    marginBottom: 16,
-    paddingHorizontal: 16,
-    backgroundColor: '#FAFAFA',
-    fontSize: 16,
-    width: '100%',
-  },
-  resetButton: {
-    backgroundColor: '#007BFF',
-    borderRadius: 12,
-    paddingVertical: 14,
-    marginBottom: 16,
-    alignItems: 'center',
-    width: '100%',
-  },
-  resetButtonText: {
-    color: '#FFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  backLink: {
-    marginVertical: 12,
-    width: '100%',
-    alignItems: 'center',
-  },
-  backLinkText: {
-    color: '#007BFF',
-    fontSize: 16,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+    },
+    innerContainer: {
+        width: '100%',
+        maxWidth: 400,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    input: {
+        height: 50,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginBottom: 10,
+    },
+    button: {
+        backgroundColor: '#007BFF',
+        paddingVertical: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+    },
+    backButton: {
+        marginTop: 10,
+        alignItems: 'center',
+    },
+    backButtonText: {
+        color: '#007BFF',
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        marginBottom: 10,
+    },
+    successText: {
+        color: 'green',
+        fontSize: 14,
+        marginBottom: 10,
+    },
 });
+
+export default ForgotPasswordScreen;

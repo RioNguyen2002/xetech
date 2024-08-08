@@ -1,35 +1,75 @@
 import { View, Text, TextInput, TouchableOpacity, Image, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import CheckBox from '@react-native-community/checkbox';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import vector icons
+import TermsAndConditions from '../component/TermsAndConditions'; // Import TermsAndConditions component
 
 const SignUp = ({ navigation }) => {
     const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [agreeTerms, setAgreeTerms] = useState(false);
+    const [termsVisible, setTermsVisible] = useState(false);
+
+    // Error states
+    const [nameError, setNameError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [termsError, setTermsError] = useState('');
 
     const handleSignUp = async () => {
+        let valid = true;
+
+        // Reset errors
+        setNameError('');
+        setUsernameError('');
+        setEmailError('');
+        setPhoneError('');
+        setPasswordError('');
+        setConfirmPasswordError('');
+        setTermsError('');
+
+        if (!name) {
+            setNameError('Full Name is required');
+            valid = false;
+        }
+        if (!username) {
+            setUsernameError('Username is required');
+            valid = false;
+        }
+        if (!email) {
+            setEmailError('Email is required');
+            valid = false;
+        }
+        if (!phone) {
+            setPhoneError('Phone Number is required');
+            valid = false;
+        }
+        if (!password) {
+            setPasswordError('Password is required');
+            valid = false;
+        }
         if (password !== confirmPassword) {
-            console.log('Passwords do not match');
-            return;
+            setConfirmPasswordError('Passwords do not match');
+            valid = false;
         }
         if (!agreeTerms) {
-            console.log('You must agree to the terms');
-            return;
+            setTermsError('You must agree to the terms');
+            valid = false;
         }
 
+        if (!valid) return;
+
         // Handle sign-up logic here
-        console.log('Sign Up', { name, email, password });
+        console.log('Sign Up', { name, username, email, phone, password });
 
         // Navigate to the next screen or show a success message
         navigation.navigate('SignIn'); // Navigate to sign-in screen or dashboard
-    };
-
-    const handleSocialSignUp = (provider) => {
-        console.log(`Sign up with ${provider}`);
-        // Implement social sign-up logic here
     };
 
     return (
@@ -42,54 +82,95 @@ const SignUp = ({ navigation }) => {
                     />
                     <Text style={styles.title}>Sign Up</Text>
 
-
-
                     {/* Form Inputs */}
-                    <TextInput
-                        style={styles.input}
-                        placeholder='Name'
-                        value={name}
-                        onChangeText={setName}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder='Email'
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType='email-address'
-                        autoCapitalize='none'
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder='Password'
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        autoCapitalize='none'
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder='Confirm Password'
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                        secureTextEntry
-                        autoCapitalize='none'
-                    />
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Full Name'
+                            value={name}
+                            onChangeText={setName}
+                            placeholderTextColor="#888888"
+                        />
+                        {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Username'
+                            value={username}
+                            onChangeText={setUsername}
+                            placeholderTextColor="#888888"
+                        />
+                        {usernameError ? <Text style={styles.errorText}>{usernameError}</Text> : null}
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Email'
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType='email-address'
+                            autoCapitalize='none'
+                            placeholderTextColor="#888888"
+                        />
+                        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Phone Number'
+                            value={phone}
+                            onChangeText={setPhone}
+                            keyboardType='phone-pad'
+                            placeholderTextColor="#888888"
+                        />
+                        {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Password'
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                            autoCapitalize='none'
+                            placeholderTextColor="#888888"
+                        />
+                        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Confirm Password'
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                            secureTextEntry
+                            autoCapitalize='none'
+                            placeholderTextColor="#888888"
+                        />
+                        {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
+                    </View>
 
                     {/* Terms and Conditions */}
                     <View style={styles.termsContainer}>
                         <CheckBox
                             value={agreeTerms}
                             onValueChange={setAgreeTerms}
-                            tintColors={{ true: '#007BFF', false: '#000000' }} // Customize colors as needed
+                            tintColors={{ true: '#007BFF', false: '#000000' }}
                         />
                         <Text style={styles.termsText}>
                             I agree to the
-                            <TouchableOpacity onPress={() => navigation.navigate('TermsAndConditions')}>
+                            <TouchableOpacity onPress={() => setTermsVisible(true)}>
                                 <Text style={styles.termsLink}> Terms and Conditions</Text>
                             </TouchableOpacity>
                         </Text>
                     </View>
+                    {termsError ? <Text style={styles.errorText}>{termsError}</Text> : null}
 
                     {/* Sign Up Button */}
                     <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
@@ -101,6 +182,9 @@ const SignUp = ({ navigation }) => {
                         <Text style={styles.signInText}>Already have an account? Sign In</Text>
                     </TouchableOpacity>
                 </View>
+
+                {/* Terms and Conditions Component */}
+                <TermsAndConditions visible={termsVisible} onClose={() => setTermsVisible(false)} />
             </SafeAreaView>
         </ScrollView>
     );
@@ -117,57 +201,58 @@ const styles = StyleSheet.create({
     },
     safeAreaView: {
         flex: 1,
-        justifyContent: 'center',
     },
     container: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#FFFFFF',
         borderRadius: 16,
         padding: 24,
         elevation: 5,
-        shadowColor: '#000',
-        shadowOpacity: 0.3,
-        shadowRadius: 10,
-        shadowOffset: { width: 0, height: 5 },
+        shadowColor: '#000000',
+        shadowOpacity: 0.2,
+        shadowRadius: 12,
+        shadowOffset: { width: 0, height: 6 },
         alignItems: 'center',
         marginHorizontal: 16,
     },
     logo: {
-        width: 120,
-        height: 120,
-        marginBottom: 24,
+        width: 100,
+        height: 100,
+        marginBottom: 20,
     },
     title: {
         fontSize: 28,
-        fontWeight: 'bold',
-        marginBottom: 24,
-        color: '#333',
+        fontWeight: '700',
+        color: '#333333',
+        marginBottom: 20,
     },
-
+    inputContainer: {
+        width: '100%',
+        marginBottom: 16,
+    },
     input: {
         height: 50,
         borderColor: '#DDDDDD',
         borderWidth: 1,
         borderRadius: 12,
-        marginBottom: 16,
         paddingHorizontal: 16,
         backgroundColor: '#FAFAFA',
         fontSize: 16,
-        width: '100%',
+        color: '#333333',
     },
     termsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: 20,
         width: '100%',
     },
     termsText: {
         marginLeft: 8,
         fontSize: 16,
-        color: '#333',
+        color: '#333333',
     },
     termsLink: {
         color: '#007BFF',
-        fontWeight: 'bold',
+        fontWeight: '500',
     },
     signUpButton: {
         backgroundColor: '#007BFF',
@@ -178,9 +263,9 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     signUpButtonText: {
-        color: '#FFF',
+        color: '#FFFFFF',
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: '700',
     },
     signIn: {
         marginVertical: 12,
@@ -190,5 +275,11 @@ const styles = StyleSheet.create({
     signInText: {
         color: '#007BFF',
         fontSize: 16,
+    },
+    errorText: {
+        color: '#FF0000',
+        fontSize: 12,
+        marginTop: 4,
+        textAlign: 'left',
     },
 });

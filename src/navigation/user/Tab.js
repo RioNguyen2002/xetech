@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import Home from '../../screen/user/Home';
 import Setting from '../../screen/user/Setting';
 import { ThemeProvider } from '../../Theme/ThemeContext';
@@ -17,7 +17,7 @@ const Tab = () => {
                     component={Home}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="home-outline" color={color} size={size} />
+                            <AntDesign name="home" color={color} size={size} />
                         ),
                     }}
                 />
@@ -27,7 +27,7 @@ const Tab = () => {
                     component={Setting}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="settings-outline" color={color} size={size} />
+                            <AntDesign name="setting" color={color} size={size} />
                         ),
                     }}
                 />

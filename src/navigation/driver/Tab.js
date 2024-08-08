@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../../screen/admin/Home';
-import Setting from '../../screen/admin/Setting';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Import the icons you need
+import Icon from 'react-native-vector-icons/Ionicons'; // Import the icons you need
 import { ThemeProvider } from '../../Theme/ThemeContext';
+import Home from '../../screen/driver/Home';
+import Settings from '../../screen/driver/Setting';
 
 const Tabs = createBottomTabNavigator();
 
@@ -17,9 +17,9 @@ const Tab = () => {
             let iconName;
 
             if (route.name === 'Home') {
-              iconName = 'dashboard'; // Icon name for Home tab
+              iconName = 'home-outline'; // Icon name for Home tab
             } else if (route.name === 'Setting') {
-              iconName = 'settings'; // Icon name for Setting tab
+              iconName = 'settings-outline'; // Icon name for Setting tab
             }
 
             return <Icon name={iconName} size={size} color={color} />;
@@ -31,7 +31,7 @@ const Tab = () => {
         })}
       >
         <Tabs.Screen name="Home" component={Home} />
-        <Tabs.Screen name="Setting" component={Setting} />
+        <Tabs.Screen name="Setting" component={Settings} />
       </Tabs.Navigator>
     </ThemeProvider>
   );

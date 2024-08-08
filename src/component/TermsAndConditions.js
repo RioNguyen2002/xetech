@@ -1,43 +1,91 @@
-// TermsAndConditions.js
-
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 
-const TermsAndConditions = () => {
+const TermsAndConditions = ({ visible, onClose }) => {
+    if (!visible) return null;
+
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollView}>
-                <Text style={styles.title}>Terms and Conditions</Text>
-                <Text style={styles.text}>
-                    {/* Add your terms and conditions text here */}
-                    These Terms and Conditions govern your use of this application. By using this app, you agree to abide by these terms. If you do not agree to these terms, please do not use this app.
-                    {/* ... More text ... */}
-                </Text>
-            </ScrollView>
+        <SafeAreaView style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+                <Text style={styles.modalTitle}>Terms and Conditions</Text>
+                <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                    <Text style={styles.termsText}>
+                        {/* Your Terms and Conditions text goes here */}
+                        1. Acceptance of Terms{'\n'}
+                        By accessing or using our services, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you may not access or use our services.{'\n'}{'\n'}
+                        2. Description of Services{'\n'}
+                        Our services include [brief description of services provided]. We reserve the right to modify, suspend, or discontinue any aspect of our services at any time, with or without notice.{'\n'}{'\n'}
+                        3. User Accounts{'\n'}
+                        You may be required to create an account to access certain features of our services. You are responsible for maintaining the confidentiality of your account and password and for restricting access to your account. You agree to accept responsibility for all activities that occur under your account.{'\n'}{'\n'}
+                        4. User Conduct{'\n'}
+                        You agree not to use our services for any unlawful purpose or in any way that violates these Terms and Conditions. You also agree not to:{'\n'}
+                        - Harass, abuse, or harm other users{'\n'}
+                        - Violate the rights of third parties{'\n'}
+                        - Interfere with or disrupt the operation of our services{'\n'}
+                        - Use our services for commercial solicitation without our prior written consent{'\n'}{'\n'}
+                        5. Intellectual Property{'\n'}
+                        All content and materials available on our services, including but not limited to text, graphics, logos, images, and software, are the property of [company name] or its licensors and are protected by copyright, trademark, and other intellectual property laws.{'\n'}{'\n'}
+                        6. Limitation of Liability{'\n'}
+                        To the fullest extent permitted by law, [company name] shall not be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of our services.{'\n'}{'\n'}
+                        7. Indemnification{'\n'}
+                        You agree to indemnify and hold [company name], its affiliates, officers, directors, employees, and agents harmless from and against any and all claims, liabilities, damages, losses, or expenses arising out of or in any way connected with your use of our services.{'\n'}{'\n'}
+                        8. Governing Law{'\n'}
+                        These Terms and Conditions shall be governed by and construed in accordance with the laws of [jurisdiction], without regard to its conflict of law provisions.{'\n'}{'\n'}
+                        9. Changes to Terms and Conditions{'\n'}
+                        We reserve the right to update or modify these Terms and Conditions at any time without prior notice. Your continued use of our services after any such changes constitutes your acceptance of the new Terms and Conditions.
+                    </Text>
+                </ScrollView>
+                <TouchableOpacity onPress={onClose} style={styles.modalButton}>
+                    <Text style={styles.modalButtonText}>Close</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-        backgroundColor: '#F5F5F5',
-    },
-    scrollView: {
-        flexGrow: 1,
+    modalContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
     },
-    title: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        marginBottom: 16,
-        color: '#333',
+    modalContent: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 12,
+        padding: 20,
+        width: '90%',
+        maxHeight: '80%',
+        justifyContent: 'space-between',
     },
-    text: {
+    modalTitle: {
+        fontSize: 22,
+        fontWeight: '600',
+        color: '#333333',
+        marginBottom: 10,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+    },
+    termsText: {
         fontSize: 16,
-        color: '#333',
-        lineHeight: 24,
+        color: '#333333',
+    },
+    modalButton: {
+        backgroundColor: '#007BFF',
+        borderRadius: 12,
+        paddingVertical: 10,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    modalButtonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
     },
 });
 
